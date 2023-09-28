@@ -5,8 +5,8 @@ const inputLocation = document.querySelector("#location-input");
 
 //DOM manipulation
 const city = document.querySelector(".weather-city");
-const conditionH1 = document.querySelector(".weather-condition");
-const tempH3 = document.querySelector(".weather-temp");
+const condition = document.querySelector(".weather-condition");
+const temp = document.querySelector(".weather-temp");
 const description = document.querySelector(".weather-description");
 const img = document.querySelector("img");
 
@@ -16,19 +16,21 @@ async function getWeather(location) {
     );
 
     let json = await response.json();
-    console.log(json);
-    console.log(json.current);
-
-    /*city.textContent = json.location.name;
-    conditionH1.textContent = json.current.condition.textContent;
-    img.src = json.current.condition.icon;
-    temp.textContent = json.current.temp_c;
-    description.textContent = json.current.condition.text;*/
+    displayWeather(json);
 }
+
+function displayWeather(weatherResponse) {
+    city.textContent = weatherResponse.location.name;
+    condition.textContent = weatherResponse.current.condition.textContent;
+    description.textContent = weatherResponse.current.condition.text;
+    temp.textContent = weatherResponse.current.temp_c + " °C";
+    img.src = weatherResponse.current.condition.icon;
+    console.log(weatherResponse);
+}
+
+getWeather("caracas");
 
 btn.addEventListener("click", () => {
     getWeather(inputLocation.value);
     inputLocation.value = "";
 });
-
-getWeather("Caracas");
